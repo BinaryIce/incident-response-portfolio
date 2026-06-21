@@ -1,13 +1,8 @@
-Case Study: Eliminating a $300,000 Ransomware Demand via Infrastructure Reconstruction
-Executive Summary
-
-    The Threat: An organization’s production environment was fully compromised by an adversarial ransomware payload. The threat actors established persistence, encrypted the core active directory domain controller, and issued an extortion demand equivalent to $300,000 in Bitcoin for the decryption keys.
+The Threat: An organization’s production environment was fully compromised by an adversarial ransomware payload. The threat actors established persistence, encrypted the core active directory domain controller, and issued an extortion demand equivalent to $300,000 in Bitcoin for the decryption keys.
 
     The Intervention: Rather than engaging in negotiation or paying the ransom, a high-intensity bare-metal infrastructure reconstruction and data extraction strategy was executed over the July 4th holiday weekend.
 
     The Outcome: 100% operational restoration, complete eradication of threat actor persistence, and zero dollars paid to extortionists. The environment was securely verified and handed back to the client fully functional within a tight 36-hour window.
-
-1. Initial Assessment & Blast Radius Analysis
 
 An emergency post-incident audit was conducted to map the compromise vectors and locate surviving assets while the primary network was entirely locked down.
 
@@ -17,16 +12,11 @@ An emergency post-incident audit was conducted to map the compromise vectors and
 
     The Critical Discovery: During a physical asset and disk topology audit, a hidden hardware asset was identified: an external storage drive connected directly to the server. The primary host OS had been configured such that the drive volume structure was invisible to standard Windows explorer paths, inadvertently creating an air-gapped security layer that protected it from the automated ransomware script.
 
-2. Emergency Response & Recovery Timeline
-Phase 1: Zero-Hour Perimeter Blackout & Triage (Holiday Weekend Deployment)
-
 The immediate priority was to contain the blast radius and verify the integrity of the hidden storage device without exposing it to potential re-infection vectors.
 
     Action: Severed the compromised VPN gateway and terminated all active network states on Thursday, July 3rd, to kill any active Command and Control (C2) persistence.
 
     Action: Safely unmounted the hidden external storage drive from the infected physical machine to prevent any delayed or reactive execution routines from touching it.
-
-Phase 2: Sandboxed Forensics & Disk Mounting
 
 Because the external drive had been physically attached to a compromised host, treating it as natively safe was a high-risk path.
 
@@ -38,8 +28,6 @@ Because the external drive had been physically attached to a compromised host, t
 
     Action: Bit-stream copied the verified corporate data structures cleanly onto a secondary, sterile external storage target.
 
-Phase 3: Bare-Metal Purification and Re-deployment
-
 With the verified data safely isolated on a clean medium, the tainted infrastructure was systematically purged over the course of Friday, July 4th.
 
     Action: Executed a low-level format on the compromised Windows Server 2012 physical machine and all verified local client endpoints, completely destroying the compromised OS footprints, partition tables, and potential rootkits.
@@ -48,14 +36,10 @@ With the verified data safely isolated on a clean medium, the tainted infrastruc
 
     Action: Securely transferred the recovered data from the sterile backup drive back onto the newly provisioned server volumes, running an aggressive post-migration file integrity and virus sweep to finalize verification by Friday night.
 
-3. Business Metrics & Deliverables
-
     Ransom Paid: $0.00 (Threat actors denied all leverage)
 
     Data Recovery Rate: 100% Structural Integrity Retained
 
     Time to Operational Baseline: Under 36 Hours (Fully operational prior to the conclusion of the holiday weekend)
-
-Architectural Takeaway
 
 Traditional perimeter security and standard corporate VPNs are no longer sufficient containment barriers; an infected remote endpoint can easily tunnel a payload directly into core directories. True security relies on an engineer's ability to maintain absolute situational awareness over bare-metal hardware, leverage multi-platform environments (like using Linux forensic sandboxing to safely handle Windows images), and execute rapid, automated bare-metal purges when a production kernel is compromised.
