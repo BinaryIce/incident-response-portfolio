@@ -27,6 +27,11 @@ The case studies detailed below demonstrate hands-on experience in mitigating ad
 * **Outcome:** 100% traffic normalization and backdoor eradication. Preserved and packetized full forensic artifacts, malicious source code, and configuration screenshots to submit a formal **IC3 compliance filing to the FBI**.
 
 ---
+### 4. 🥷 Dark-Target Infrastructure & Cryptographic Segmentation
+#### [Engineering High-Anonymity Cryptographic Overlays via ZeroTier Mesh and Tor Onion Services](./Case%20Study%20-%20ZeroTier%20Mesh%20and%20Tor%20Onion%20Services.md)
+* **Scenario:** Protecting highly sensitive, internal application servers and staging utilities from automated global zero-day scans, perimeter brute-forcing, and public DNS mapping.
+* **Core Interventions:** Architected a zero-trust hidden ecosystem. Bound internal daemons strictly to the host loopback, routed external client access via a cryptographically secure V3 Tor Onion Service, and layered peer-to-peer administrative switching using a private ZeroTier mesh overlay.
+* **Outcome:** Eliminated 100% of the public internet attack surface. The environment maintains zero open inbound WAN ports, achieves full location-independence, and registers as completely dark on external Nmap/Shodan scans.
 
 ## 🧠 Core Technical Expertise Demonstrated
 
