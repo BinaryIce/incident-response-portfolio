@@ -36,3 +36,27 @@ Before clearing the devices, all critical forensic evidence was preserved to sup
 ---
 
 ## 3. Infrastructure Eradication & Recovery
+
+
+```
+
+[Isolated Google Business Email] ──(Secure Configuration Sync)──> [Air-Gapped Workstation] ──(Serial Netinstall)──> [Hardened MikroTik Edge]
+
+```
+
+Because the underlying operating system binaries were suspect due to the zero-day exploitation, standard software resets were avoided in favor of a trusted bare-metal rebuild:
+
+1. **Out-of-Band Recovery Access:** Core switches and edge routers were completely isolated from the upstream Gecko Internet transit link to halt active traffic manipulation and terminate C2 beaconing.
+2. **Configuration Extraction:** Known-good, uncompromised system configuration backups were securely pulled down from an off-site Google Business email vault, which was automatically updated every night via an encrypted, isolated cron cycle.
+3. **Firmware Wipe & Netinstall:** The hardware was flashed at the physical layer using the MikroTik Netinstall utility, completely rewriting the storage sectors to eradicate any low-level rootkits or hidden persistence scripts.
+4. **Hardened Restoration:** The verified configuration backups were restored to the clean firmware. All default service ports were disabled, administrative access was restricted strictly to out-of-band management interfaces, and firewall rules were updated to drop all unmapped outbound traffic.
+
+---
+
+## 4. Key Engineering Takeaways
+
+1. **Decouple Backup Infrastructure:** Keeping configuration backups entirely separated from the primary network infrastructure (such as shipping them to a secure, external cloud inbox nightly) ensures recovery capability even during a total domain or infrastructure takeover.
+2. **Assume Device Binary Compromise:** When dealing with zero-day exploits, do not trust the device's native operating system to report its own status or handle its own reset. Flash the hardware via lower-level serial/bootloader utilities (like Netinstall) to ensure absolute eradication of persistent scripts.
+3. **Document and Escalated Immediately:** Treating a breach as a potential crime scene by documenting artifacts, screenshotting malicious scripts, and handing them to federal authorities (IC3) protects the broader internet ecosystem and builds an unassailable record of institutional response.
+
+```
