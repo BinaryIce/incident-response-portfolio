@@ -1,0 +1,68 @@
+# Tactical Network Deployment Report: Disaster Response (Corpus Christi / Gecko Internet WISP)
+
+## Operations Overview
+* **Operation Name:** Hurricane Harvey Emergency Communications Deployment
+* **Deployment Location:** Corpus Christi, Texas Area / Local Field Office & Megashelter
+* **Upstream Provider:** Gecko Internet (Local Fixed Wireless ISP)
+* **Operational Status:** Complete / Stable
+* **Author/Lead Engineer:** [Your Name/Role]
+
+---
+
+## 1. Operational Context & Mission Scope
+Following the catastrophic landfall and subsequent flooding caused by Hurricane Harvey in the Corpus Christi region, local subterranean fiber infrastructure suffered widespread cascading failures. Regional cellular networks were entirely saturated by emergency traffic, suffering from dropped packets and power-depleted towers. The emergency field office required an immediate, high-availability backhaul solution to handle critical data logistics, supply lines, and medical coordination.
+
+During reconnaissance, the local Fixed Wireless ISP, **Gecko Internet**, was identified as the sole functioning commercial internet infrastructure remaining in the area due to their high-altitude line-of-sight tower positioning. The mission required staging a rapid-deployment mast on-site, mounting a directional subscriber antenna, aligning it with the surviving Gecko Internet tower array, and distributing a secured local network (LAN) for disaster relief staff.
+
+---
+
+## 2. Deployment Timeline & Phases
+
+### Phase 1: Site Survey & Mast Rigging (Day 1 - Morning)
+* Conducted a physical assessment of the designated relief site to find a high-point structural mounting location with an unobstructed Line of Sight (LoS) toward the nearest standing Gecko Internet sector tower.
+* Erected a heavy-duty temporary mast mount on the facility roof, bracing it mechanically to withstand residual high-velocity coastal winds.
+
+### Phase 2: Power Conditioning Setup (Day 1 - Midday)
+* Deployed a portable field generator to supply power to the core network stack. 
+* Because raw generator output exhibits major voltage sags and frequency fluctuations that can instantly destroy delicate microwave radios, the generator feed was run through an online double-conversion UPS to ensure a continuous, clean 120V AC signal.
+
+### Phase 3: Fixed Wireless Alignment & Link Lock (Day 1 - Afternoon)
+* Mounted a high-gain directional subscriber dish onto the rooftop mast and ran outdoor-rated, shielded Cat5e cable down to the temporary server room.
+* Manually aligned the dish to the Gecko Internet sector antenna, precision-tuning the azimuth and elevation while tracking RSSI (Received Signal Strength Indicator) and CINR (Carrier-to-Interference-plus-Noise Ratio) until a stable, low-latency symmetric link was locked.
+
+### Phase 4: Core Routing & Traffic Micro-Management (Day 1 - Evening)
+* Terminated the Gecko Internet handoff into the WAN port of the site firewall.
+* Configured isolated operational VLANs and aggressive Quality of Service (QoS) queues to protect the newly established wireless backhaul from being choked by non-essential background traffic.
+
+---
+
+## 3. Tactical Architecture Specs
+
+| Layer | Component Class | Purpose |
+| :--- | :--- | :--- |
+| **Backhaul Connection** | Gecko Internet Directional Subscriber Dish | Point-to-Point fixed wireless link bypassing all damaged ground infrastructure. |
+| **Power Infrastructure** | Portable Generator + Double-Conversion UPS | Isolates network hardware and PoE injectors from dirty field power. |
+| **Edge Routing / Firewall**| Enterprise Multi-VLAN Security Gateway | Terminates WISP handoff, runs DHCP, manages stateful firewall rules. |
+| **Distribution & Access**  | Managed PoE Switch + Ruggedized 5GHz WAPs | Feeds VoIP lines and local wireless access points across the disaster floor. |
+
+### Traffic Shaping Policy
+To prevent the fixed wireless link from being saturated by automated device syncs or public usage, a strict firewall policy was applied at the edge:
+* **Priority 1 (Guaranteed Bandwidth):** National Disaster Data Systems, VoIP/Radio-over-IP, and medical coordination channels.
+* **Priority 2 (Best Effort):** Standard operational email, logistical coordination spreadsheets.
+* **Priority 3 (Blocked/Throttled):** Video streaming, social media media uploads, OS update servers.
+
+---
+
+## 4. Field Engineering Challenges Overcome
+
+* **Atmospheric Attenuation (Rain Fade):** Residual rain bands and extreme coastal humidity cause significant signal attenuation on wireless frequencies. This was mitigated by over-provisioning the alignment accuracy during Phase 3 to maximize the link's fade margin, ensuring structural stability through lingering weather.
+* **Dirty Generator Power:** Early deployment phases suffered from fluctuating generator frequencies that tripped standard standby UPS systems into battery mode repeatedly. Switching to an **online double-conversion UPS** solved this completely, as it constantly converts AC to DC, and then regenerates a pristine AC sine wave for the PoE injectors feeding the rooftop Gecko Internet radio.
+* **RF Over-Saturation:** With hundreds of emergency workers and displaced citizens in a tight space, the 2.4GHz Wi-Fi spectrum was completely unusable due to severe co-channel interference. The operational network was forced to run exclusively on **5GHz channels with narrow 20MHz widths**, prioritizing connectivity resilience over maximum theoretical speed.
+
+---
+
+## 5. Lessons Learned & Playbook Recommendations
+
+1. **Maintain Local WISP Contacts:** Maintaining emergency contact sheets for regional, independent WISPs is incredibly valuable. Unlike major nationwide telecom carriers, local wireless operators can often quickly re-route sector capacity or adjust tower settings manually to prioritize a critical disaster relief site.
+2. **Shielded Cabling (STP) is Mandatory:** Field deployments using high-gain outdoor antennas require shielded twisted pair (STP) cabling with grounded RJ45 connectors to prevent static electricity buildup from high winds and stormy coastal conditions from destroying the Ethernet ports on internal switches.
+3. **Pre-Configured Fly-Away Kits:** Pre-configuring "network-in-a-box" tactical kits with pre-defined VLANs, QoS rules, and VPN tunnels drastically reduces time-to-online when arriving at a chaotic disaster zone.
